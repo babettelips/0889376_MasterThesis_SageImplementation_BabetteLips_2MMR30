@@ -37,7 +37,7 @@ Furthermore, common input parameters are:
 - ```parameterset```: the parameter set we want to find results for.
 
 ## Setup
-To run this programs of this repository, perform the following steps:
+To run the programs of this repository, perform the following steps:
 
 - Download SageMath version 9.1 via [this link](https://github.com/sagemath/sage-windows/releases/tag/0.6.0-9.1).
 - Copy the code of program ```methods``` in a textfile, for example using Notepad.
