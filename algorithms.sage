@@ -1,9 +1,9 @@
 import random; import cmath; import pandas as pd
 #load("Documents/Thesis/methods.sage")
 
-def saber(ratio, wordsize, parameterset):
+def saber(ratio, wordsize):
 	mod = 2^13; mod2 = 10484737; pr = 10; size = 256; ranges = [[-5, 6], [-4, 5], [-3, 4]]
-	lbrange = ranges[parameterset - 1][0]; rbrange = ranges[parameterset - 1][1]
+	lbrange = ranges[0][0]; rbrange = ranges[0][1] #results are the same for each parameter set
 	a = [random.randrange(0, mod) for i in range(size)]
 	b = [random.randrange(lbrange, rbrange) for i in range(size)]
 	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
@@ -127,9 +127,9 @@ def kyber(ratio, wordsize):
 		"countssared:", countssared, "Nussbaumer:", countnus, "Transform to NTT form:", counttontt, "Transform back to coefficient form:", 
 		countinv]
 
-def dilithium(ratio, wordsize, parameterset):
+def dilithium(ratio, wordsize):
 	mod = 2^23 - 2^13 + 1; size = 256; ranges = [[-7, 8], [-6, 7], [-5, 6], [-3, 4]]
-	lbrange = ranges[parameterset - 1][0]; rbrange = ranges[parameterset - 1][1]
+	lbrange = ranges[0][0]; rbrange = ranges[1][1] #results are the same for each parameter set
 	a = [random.randrange(0, mod) for i in range(size)]
 	b = [random.randrange(lbrange, rbrange) for i in range(size)]
 	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
@@ -313,7 +313,7 @@ def ntru(ratio, wordsize, parameterset):
 		"NTRU's NTT method:", countntrusm2, "Schoolbook:", countsch, "Karatsuba:", countkar, "Toom-3:", countto3, "Toom-4:", 
 		countto4, "Best combination of iterative methods:", countbest, "countntt:", countntt, "SSA:", countssa]
 
-def falcon(ratio, wordsize, size):
+def falcon(ratio, wordsize, parameterset):
 	mod = 12289; pr = 11; ths = [10302, 1945]; sizes = [512, 1024]
 	th = ths[parameterset - 1]; size = sizes[parameterset - 1]
 
@@ -383,6 +383,11 @@ def efficiency(algorithm, ratio):
 	return output
 
 def all(algorithms, ratio, wordsize):
+	#with parameter 'algorithms' we denote the list of ring-based PQC algorithms of Round 3 of the NIST PQC competition. 
+	#note that NTRUPrime, NTRU and Falcon's results differ for different parameter sets. We should also input for which parameter set 
+	#we want to optain the results. This means that if we want to use this function for example to find the results for Kyber, Saber and NTRU's
+	#parameter set 3 on a platform with ratio r = 4.0 and word size w = 64, we should run 'all([Kyber, Saber, NTRU, 1], 4.0, 64)'.
+
 	output = []
 	for i in range(len(algorithms)):
 		if algorithms[i] == saber:
