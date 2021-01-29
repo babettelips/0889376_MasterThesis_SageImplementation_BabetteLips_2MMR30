@@ -49,7 +49,7 @@ To run this programs of this repository, perform the following steps:
 load("methods.sage")
 load("algorithms.sage")
 ```
-- We are now able to use the functions of both programs. Make sure to load both programs, because we cannot find results of the functions in program ```algorithms``` 
+We are now able to use the functions of both programs. Make sure to load both programs, because we cannot find results of the functions in program ```algorithms``` 
 when we did not load program ```method```.
 
 ## Code examples
