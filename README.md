@@ -35,7 +35,7 @@ Furthermore, common input parameters are:
 To run this programs of this repository, perform the following steps:
 
 - Download SageMath version 9.1 via [this link](https://github.com/sagemath/sage-windows/releases/tag/0.6.0-9.1).
-- Create a folder on your computer inside the folder 'Documents' and for example give it the name 'Runprograms'.
+- Create a folder on your computer inside the folder 'Documents' and give it the name 'Runprograms'.
 - Copy the code of program ```methods``` in a textfile, for example using Notepad.
 - Save the textfile as an 'all files' document in the created folder using the name: methods.sage.
 - Copy the code of program ```algorithms``` in a textfile, for example using Notepad.
