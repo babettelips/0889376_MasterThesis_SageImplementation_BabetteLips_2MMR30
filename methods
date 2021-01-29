@@ -22,12 +22,12 @@ def primroot(mod):
 			return g
 	return "no primitive root found for this modulus"
 
-def findmod(m, q):
+def findmod(m, s):
 	#to find a big enough prime p for the NTT method when no prime is given.
 
 	k = 1
 	p = k*m + 1
-	while isprime(p) == False or p < (m*q^2 + 1):
+	while isprime(p) == False or p < (m*s^2 + 1):
 		p = p + m; k += 1
 	return [p, k]
 
