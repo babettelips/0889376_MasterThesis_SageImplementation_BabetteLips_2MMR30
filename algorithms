@@ -184,19 +184,10 @@ def dilithium(ratio, wordsize, parameterset):
 		"SSA reduced:", countssared, "Nussbaumer:", countnus, "Transform to NTT form:", counttontt, "Transform back to coefficient form:", 
 		countinv]
 
-def ntruprime(ratio, wordsize, sizeinp):
+def ntruprime(ratio, wordsize, parameterset):
 	mods = [4621, 4591, 5167, 6343, 7177, 7879]; sizes = [653, 761, 857, 953, 1013, 1277]  
 	assert(wordsize >= 16), "implementation not optimal"
-	mod2 = 20144129; pr = 3
-	
-	size = 0
-	index = 0
-	for i in range(len(sizes)):
-		if sizeinp == sizes[i]:
-			size = sizes[i]
-			index = i
-	assert (size != 0), "no ntruprime input parameters"
-	mod = mods[index]
+	mod2 = 20144129; pr = 3; mod = mods[parameterset - 1]; size = sizes[parameterset - 1]
 
 	a = [random.randrange(0, mod) for i in range(size)]
 	b = [random.randrange(-1, 2) for i in range(size)]
@@ -237,18 +228,9 @@ def ntruprime(ratio, wordsize, sizeinp):
 		"Schoolbook:", countsch, "Karatsuba:", countkar, "Toom-3:", countto3, "Toom-4:", countto4, "Best combination of iterative methods:", 
 		countbest, "countntt:", countntt, "SSA:", countssa]
 
-def ntru(ratio, wordsize, sizeinp):
+def ntru(ratio, wordsize, parameterset):
 	mods = [2^11, 2^11, 2^13, 2^12]; sizes = [509, 677, 701, 821]; sizes2 = [1024, 1536, 1536, 1728]
-	mod2 = 6635521; pr = 19
-
-	size = 0
-	index = 0
-	for i in range(len(sizes)):
-		if sizeinp == sizes[i]:
-			size = sizes[i]
-			index = i
-	assert (size != 0), "no ntru input parameters"
-	mod = mods[index]; size2 = sizes2[index]
+	mod2 = 6635521; pr = 19; mod = mods[parameterset - 1]; size = sizes[parameterset - 1]
 	
 	a = [random.randrange(-mod/2, mod/2) for i in range(size)]
 	b = [random.randrange(-1, 2) for i in range(size)]
@@ -332,9 +314,9 @@ def ntru(ratio, wordsize, sizeinp):
 		countto4, "Best combination of iterative methods:", countbest, "countntt:", countntt, "SSA:", countssa]
 
 def falcon(ratio, wordsize, size):
-	mod = 12289; pr = 11; th = 10302
-	if size == 1024:
-		th = 1945
+	mod = 12289; pr = 11; ths = [10302, 1945]; sizes = [512, 1024]
+	th = ths[parameterset - 1]; size = sizes[parameterset - 1]
+
 	a = [random.randrange(0, mod) for i in range(size)]
 	b = [random.randrange(-127, 128) for i in range(size)]
 	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
@@ -400,18 +382,43 @@ def efficiency(algorithm, ratio):
 		output += [["Efficiency", names[i], eff[i]]]
 	return output
 
-def all(ratio, wordsize, parametersets, parametersetd, sizenp, sizen, sizef):
-	s = saber(ratio, wordsize, parametersets)
-	outputsaber = efficiency(s, ratio)
-	k = kyber(ratio, wordsize)
-	outputkyber = efficiency(k, ratio)
-	d = dilithium(ratio, wordsize, parametersetd)
-	outputdilithium = efficiency(d, ratio)
-	np = ntruprime(ratio, wordsize, sizenp)
-	outputntruprime = efficiency(np, ratio)
-	n = ntru(ratio, wordsize, sizen)
-	outputntru = efficiency(n, ratio)
-	f = falcon(ratio, wordsize, sizef)
-	outputfalcon = efficiency(f, ratio)
-	return ["SABER", s, outputsaber, "KYBER", k, outputkyber, "DILITHIUM", d, outputdilithium, "NTRUPRIME", np, outputntruprime, 
-		"NTRU", n, outputntru, "FALCON", f, outputfalcon]
+def all(algorithms, ratio, wordsize):
+	output = []
+	for i in range(len(algorithms)):
+		if algorithms[i] == saber:
+			addmul = saber(ratio, wordsize, 1)
+			eff = efficiency(addmul, ratio)
+			name = "SABER:"
+			output += [name, addmul, eff]
+
+		if algorithms[i] == kyber:
+			addmul = kyber(ratio, wordsize)
+			eff = efficiency(addmul, ratio)
+			name = "KYBER:"
+			output += [name, addmul, eff]
+
+		if algorithms[i] == dilithium:
+			addmul = dilithium(ratio, wordsize, 1)
+			eff = efficiency(addmul, ratio)
+			name = "DILITHIUM:"
+			output += [name, addmul, eff]
+
+		if algorithms[i] == ntruprime:
+			addmul = ntruprime(ratio, wordsize, algorithms[i + 1])
+			eff = efficiency(addmul, ratio)
+			name = "NTRUPRIME PARAMETER SET "+"{}".format(algorithms[i + 1])+":"
+			output += [name, addmul, eff]
+
+		if algorithms[i] == ntru:
+			addmul = ntru(ratio, wordsize, algorithms[i + 1])
+			eff = efficiency(addmul, ratio)
+			name = "NTRU PARAMETER SET "+"{}".format(algorithms[i + 1])+":"
+			output += [name, addmul, eff]
+
+		if algorithms[i] == falcon:
+			addmul = falcon(ratio, wordsize, algorithms[i + 1])
+			eff = efficiency(addmul, ratio)
+			name = "FALCON PARAMETER SET "+"{}".format(algorithms[i + 1])+":"
+			output += [name, addmul, eff]
+
+	return output
