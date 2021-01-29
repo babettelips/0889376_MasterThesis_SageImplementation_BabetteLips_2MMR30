@@ -1,5 +1,5 @@
 ## The efficiency of polynomial multiplication methods for ring-based PQC algorithms of Round 3 of the NIST PQC competition.
-This repository contains the implementation (in SageMath version 9.1) of functions used for the analysis done in my master graduation project.
+This repository contains the implementation (in SageMath version 9.1) of functions used to perform the analysis of my master graduation project.
 It consists of two programs, ```algorithms.sage``` and ```methods.sage```. 
 
 ## Table of contents
