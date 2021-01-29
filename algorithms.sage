@@ -383,11 +383,6 @@ def efficiency(algorithm, ratio):
 	return output
 
 def all(algorithms, ratio, wordsize):
-	#with parameter 'algorithms' we denote the list of ring-based PQC algorithms of Round 3 of the NIST PQC competition. 
-	#note that NTRUPrime, NTRU and Falcon's results differ for different parameter sets. We should also input for which parameter set 
-	#we want to optain the results. This means that if we want to use this function for example to find the results for Kyber, Saber and NTRU's
-	#parameter set 3 on a platform with ratio r = 4.0 and word size w = 64, we should run 'all([Kyber, Saber, NTRU, 1], 4.0, 64)'.
-
 	output = []
 	for i in range(len(algorithms)):
 		if algorithms[i] == saber:
