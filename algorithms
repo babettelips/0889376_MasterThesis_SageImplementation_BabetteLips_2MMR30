@@ -1,5 +1,5 @@
 import random; import cmath; import pandas as pd
-load("Documents/Thesis/methods.sage")
+#load("Documents/Thesis/methods.sage")
 
 def saber(ratio, wordsize, parameterset):
 	mod = 2^13; mod2 = 10484737; pr = 10; size = 256; ranges = [[-5, 6], [-4, 5], [-3, 4]]
