@@ -1,8 +1,5 @@
-import random
-import pandas as pd
+import random; import cmath; import pandas as pd
 load("Documents/Thesis/methods.sage")
-possibles = globals().copy()
-possibles.update(locals())
 
 def bestcombo(size, ratio, mod, wordsize):
 	a = [random.randrange(0, mod) for k in range(size)]
@@ -12,249 +9,139 @@ def bestcombo(size, ratio, mod, wordsize):
 		countt3 = 2
 		countt4 = 2^3
 
-	counter = school(a, b, mod, wordsize)[1]
-	efficiencyk = counter[0] + ratio*counter[1]; efficiencyt3 = efficiencyk; efficiencyt4 = efficiencyk
-	methodsk = [school2]; methodst3 = [school2]; methodst4 = [school2]
-	bestmethodk = [school2]; bestmethodt3 = [school2]; bestmethodt4 = [school2]
+	counter = schoolbook(a, b, mod, wordsize)[1]
+	efficiencyoutput1 = counter[0] + ratio*counter[1]; efficiencyoutput2 = efficiencyoutput1; efficiencyoutput3 = efficiencyoutput1
+	methodsoutput1 = [schoolbook2]; methodsoutput2 = [schoolbook2]; methodsoutput3 = [schoolbook2]
+	output1 = [schoolbook2]; output2 = [schoolbook2]; output3 = [schoolbook2]
 
-	checkk = 0; checkt3 = 0; checkt4 = 0;
+	checkoutput1 = 0; checkoutput2 = 0; checkoutput3 = 0;
 
 	for i in range(1, 11):
-		if checkk < 2:
-			counterk = karatsuba(a, b, mod, methodsk, 0, wordsize)[1]
-			efficiencyknew = counterk[0] + ratio*counterk[1]
-			if efficiencyknew < efficiencyk:
-				efficiencyk = efficiencyknew
-				bestmethodk = [karatsuba] + methodsk
-				checkk = 0
-			if efficiencyknew > efficiencyk:
-				checkk += 1
-			methodsk = [karatsuba] + methodsk
+		if checkoutput1 < 2:
+			counteroutput1 = karatsuba(a, b, mod, methodsoutput1, 0, wordsize)[1]
+			efficiencytest = counteroutput1[0] + ratio*counteroutput1[1]
+			if efficiencytest < efficiencyoutput1:
+				efficiencyoutput1 = efficiencytest
+				output1 = [karatsuba] + methodsoutput1
+				checkoutput1 = 0
+			if efficiencytest > efficiencyoutput1:
+				checkoutput1 += 1
+			methodsoutput1 = [karatsuba] + methodsoutput1
 		
-		if checkt3 < 2:
-			countert3 = toom3(a, b, mod*countt3^(i), methodst3, 0, wordsize)[1]
-			efficiencyt3new = countert3[0] + ratio*countert3[1]
-			if efficiencyt3new < efficiencyt3:
-				efficiencyt3 = efficiencyt3new
-				bestmethodt3 = [toom3] + methodst3
-				checkt3 = 0
-			if efficiencyt3new > efficiencyt3:
-				checkt3 += 1
-			methodst3 = [toom3] + methodst3
+		if checkoutput2 < 2:
+			counteroutput2 = toom3(a, b, mod*countt3^(i), methodsoutput2, 0, wordsize)[1]
+			efficiencytest = counteroutput2[0] + ratio*counteroutput2[1]
+			if efficiencytest < efficiencyoutput2:
+				efficiencyoutput2 = efficiencytest
+				output2 = [toom3] + methodsoutput2
+				checkoutput2 = 0
+			if efficiencytest > efficiencyoutput2:
+				checkoutput2 += 1
+			methodsoutput2 = [toom3] + methodsoutput2
 		
-		if checkt4 < 2:
-			countert4 = toom4(a, b, mod*countt4^(i), methodst4, 0, wordsize)[1]
-			efficiencyt4new = countert4[0] + ratio*countert4[1]
-			if efficiencyt4new < efficiencyt4:
-				efficiencyt4 = efficiencyt4new
-				bestmethodt4 = [toom4] + methodst4
-				checkt4 = 0
-			if efficiencyt4new > efficiencyt4:
-				checkt4 += 1
-			methodst4 = [toom4] + methodst4
+		if checkoutput3 < 2:
+			counteroutput3 = toom4(a, b, mod*countt4^(i), methodsoutput3, 0, wordsize)[1]
+			efficiencytest = counteroutput3[0] + ratio*counteroutput3[1]
+			if efficiencytest < efficiencyoutput3:
+				efficiencyoutput3 = efficiencytest
+				output3 = [toom4] + methodsoutput3
+				checkoutput3 = 0
+			if efficiencytest > efficiencyoutput3:
+				checkoutput3 += 1
+			methodsoutput3 = [toom4] + methodsoutput3
 	
-	bestcombot4 = bestmethodk; counterbestt4 = counterk; efficiencybestt4 = efficiencyk; checkbestt4 = 0; 
-	bestcombot3 = bestmethodk; counterbestt3 = counterk; efficiencybestt3 = efficiencyk; checkbestt3 = 0; 
-	bestcombotestt3 = bestmethodk[1:]; bestcombotestt32 = bestmethodk[2:]
-	bestcombotestt4 = bestmethodk[2:]; mod2 = 0; count = 0
+	u1 = output1; counteru1 = counteroutput1; efficiencyu1 = efficiencyoutput1; checku1 = 0; 
+	u2 = output1; counteru2version1 = counteroutput1; efficiencyu2 = efficiencyoutput1; checku2 = 0; 
+	wversion1 = output1[1:]; wversion2 = output1[2:]
+	w = output1[2:]; mod2 = 0; count = 0
 
-	for i in range(1, len(bestmethodk)):
-		if checkbestt4 < 2:
-			counterbestt4 = toom4(a, b, mod*countt4^i, bestcombotestt4, 0, wordsize)[1]
-			efficiencybestnewt4 = counterbestt4[0] + ratio*counterbestt4[1]
-			if efficiencybestnewt4 < efficiencybestt4:
-				efficiencybestt4 = efficiencybestnewt4
-				bestcombot4 = [toom4] + bestcombotestt4
+	for i in range(1, len(output1)):
+		if checku1 < 2:
+			counteru1 = toom4(a, b, mod*countt4^i, w, 0, wordsize)[1]
+			efficiencytest = counteru1[0] + ratio*counteru1[1]
+			if efficiencytest < efficiencyu1:
+				efficiencyu1 = efficiencytest
+				u1 = [toom4] + w
 				count += 1
-				checkbestt4 = 0
+				checku1 = 0
 				mod2 = mod*countt4^i
-			if efficiencybestnewt4 > efficiencybestt4:
-				checkbestt4 += 1
-			bestcombotestt4 = [toom4] + bestcombotestt4[:(len(bestcombotestt4) - 3)] + [school2]
+			if efficiencytest > efficiencyu1:
+				checku1 += 1
+			w = [toom4] + w[:(len(w) - 3)] + [schoolbook2]
 		
-		if checkbestt3 < 2:
-			counterbestt3 = toom3(a, b, mod*countt3^i, bestcombotestt3, 0, wordsize)[1]
-			counterbestt32 = toom3(a, b, mod*countt3^i, bestcombotestt32, 0, wordsize)[1]
-			efficiencybestnewt3 = counterbestt3[0] + ratio*counterbestt3[1]
-			efficiencybestnewt32 = counterbestt32[0] + ratio*counterbestt32[1]
-			temp = efficiencybestnewt3
-			temp2 = bestcombotestt3
-			temp3 = bestcombot3
-			if efficiencybestnewt32 < efficiencybestnewt3:
-				temp = efficiencybestnewt32
-				temp2 = bestcombotestt32
+		if checku2 < 2:
+			counteru2version1 = toom3(a, b, mod*countt3^i, wversion1, 0, wordsize)[1]
+			counteru2version2 = toom3(a, b, mod*countt3^i, wversion2, 0, wordsize)[1]
+			efficiencytestversion1 = counteru2version1[0] + ratio*counteru2version1[1]
+			efficiencytestversion2 = counteru2version2[0] + ratio*counteru2version2[1]
+			temp = efficiencytestversion1
+			temp2 = wversion1
+			temp3 = u2
 
-			if temp < efficiencybestt3:
-				efficiencybestt3 = temp
-				bestcombot3 = [toom3] + temp2
-				bestcombotestt3 = [toom3] + temp2[:(len(temp2) - 2)] + [school2]
-				bestcombotestt32 = [toom3] + temp2[:(len(temp2) - 3)] + [school2]
+			if efficiencytestversion2 < efficiencytestversion1:
+				temp = efficiencytestversion2
+				temp2 = wversion2
+
+			if temp < efficiencyu2:
+				efficiencyu2 = temp
+				u2 = [toom3] + temp2
+				wversion1 = [toom3] + temp2[:(len(temp2) - 2)] + [schoolbook2]
+				wversion2 = [toom3] + temp2[:(len(temp2) - 3)] + [schoolbook2]
 				
-			if temp > efficiencybestt3:
-				bestcombotestt3 = [toom3] + bestcombotestt3[:(len(bestcombotestt3) - 2)] + [school2]
-				bestcombotestt32 = [toom3] + bestcombotestt3[:(len(bestcombotestt3) - 3)] + [school2]
-			if bestcombot3 == temp3:
-				checkbestt3 += 1
+			if temp > efficiencyu2:
+				wversion1 = [toom3] + wversion1[:(len(wversion1) - 2)] + [schoolbook2]
+				wversion2 = [toom3] + wversion1[:(len(wversion1) - 3)] + [schoolbook2]
+
+			if u2 == temp3:
+				checku2 += 1
 	
-	tooms = bestcombot4[:count]
-	rest = bestcombot4[count:]	
-	bestcom = bestcombot4; efficiencybestcom = efficiencybestt4; checkbestcom = 0; 
-	bestcomtest = [toom3] + rest; bestcomtest2 = [toom3] + rest[1:]
+	tooms = u1[:count]
+	rest = u1[count:]	
+	u3 = u1; efficiencyu3 = efficiencyu1; checku3 = 0; 
+	wversion1 = [toom3] + rest; wversion2 = [toom3] + rest[1:]
 
-	for i in range(1, len(bestcombot4)):	
-		if checkbestcom < 2:
-			counterbestcom = toom4(a, b, mod2*countt3^i, tooms[1:] + bestcomtest, 0, wordsize)[1]
-			counterbestcom2 = toom4(a, b, mod2*countt3^i, tooms[1:] + bestcomtest2, 0, wordsize)[1]
-			efficiencybestnewcom = counterbestcom[0] + ratio*counterbestcom[1]
-			efficiencybestnewcom2 = counterbestcom2[0] + ratio*counterbestcom2[1]
-			temp = efficiencybestnewcom
-			temp2 = bestcomtest
-			temp3 = bestcom
-			if efficiencybestnewcom2 < efficiencybestnewcom:
-				temp = efficiencybestnewcom2
-				temp2 = bestcomtest2
+	for i in range(1, len(u1)):	
+		if checku3 < 2:
+			counteru3version1 = toom4(a, b, mod2*countt3^i, tooms[1:] + wversion1, 0, wordsize)[1]
+			counteru3version2 = toom4(a, b, mod2*countt3^i, tooms[1:] + wversion2, 0, wordsize)[1]
+			efficiencytestversion1 = counteru3version1[0] + ratio*counteru3version1[1]
+			efficiencytestversion2 = counteru3version2[0] + ratio*counteru3version2[1]
+			temp = efficiencytestversion1
+			temp2 = wversion1
+			temp3 = u3
+			if efficiencytestversion2 < efficiencytestversion1:
+				temp = efficiencytestversion2
+				temp2 = wversion2
 
-			if temp < efficiencybestcom:
-				efficiencybestcom = temp
-				bestcom = tooms + temp2
-				bestcomtest = [toom3] + temp2[:(len(temp2) - 2)] + [school2]
-				bestcomtest2 = [toom3] + temp2[:(len(temp2) - 3)] + [school2]
-			if temp > efficiencybestcom:
-				bestcomtest = [toom3] + bestcomtest[:(len(bestcomtest) - 2)] + [school2]
-				bestcomtest2 = [toom3] + bestcomtest[:(len(bestcomtest) - 3)] + [school2]
-			if bestcom == temp3:
-				checkbestcom += 1
+			if temp < efficiencyu3:
+				efficiencyu3 = temp
+				u3 = tooms + temp2
+				wversion1 = [toom3] + temp2[:(len(temp2) - 2)] + [schoolbook2]
+				wversion2 = [toom3] + temp2[:(len(temp2) - 3)] + [schoolbook2]
+			if temp > efficiencyu3:
+				wversion1 = [toom3] + wversion1[:(len(wversion1) - 2)] + [schoolbook2]
+				wversion2 = [toom3] + wversion1[:(len(wversion1) - 3)] + [schoolbook2]
+			if u3 == temp3:
+				checku3 += 1
 		
-	bestmethod = bestcombot4
-	bestefficiency = efficiencybestt4
-	if efficiencyk < bestefficiency:
-		bestmethod = bestmethodk
-		bestefficiency = efficiencyk
-	if efficiencyt3 < bestefficiency:
-		bestmethod = bestmethodt3
-		bestefficiency = efficiencyt3
-	if efficiencyt4 < bestefficiency:
-		bestmethod = bestmethodt4
-		bestefficiency = efficiencyt4
-	if efficiencybestt3 < bestefficiency:
-		bestmethod = bestcombot3
-		bestefficiency = efficiencybestt3
-	if efficiencybestcom < bestefficiency:
-		bestmethod = bestcom
-		bestefficiency = efficiencybestcom
-	return [bestmethodk, bestmethodt3, bestmethodt4, bestmethod]
-
-def kyber(ratio, wordsize):
-	mod = 3329; size = 256
-	a = [random.randrange(0, mod) for i in range(size)]
-	b = [random.randrange(-2, 3) for i in range(size)]
-	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
-
-	[nttk, countntt] = nttkyber(a, b, mod, 17, 1, wordsize)
-	[sch, countsch] = school(a, b, mod, wordsize)
-	[sch, countsch2] = subtract(sch[(len(sch) - len(a)):], sch[:(len(sch) - len(a))], mod, wordsize)
-	countsch[0] += countsch2[0]
-	assert (nttk == sch), "kyber not good"
-	[kar, countkar] = karatsuba(a, b, mod, methodskaratsuba[1:], 0, wordsize)
-	[kar, countkar2] = subtract(kar[(len(kar) - len(a)):], kar[:(len(kar) - len(a))], mod, wordsize)
-	countkar[0] += countkar2[0]
-	assert (kar == sch), "kar not good"
-	[to3, countto3] = toom3(a, b, mod, methodstoom3[1:], 0, wordsize)
-	[to3, countto32] = subtract(to3[(len(to3) - len(a)):], to3[:(len(to3) - len(a))], mod, wordsize)
-	countto3[0] += countto32[0]
-	assert (to3 == sch), "to3 not good"
-	[to4, countto4] = toom4(a, b, mod, methodstoom4[1:], 0, wordsize)
-	[to4, countto42] = subtract(to4[(len(to4) - len(a)):], to4[:(len(to4) - len(a))], mod, wordsize)
-	countto4[0] += countto42[0]
-	assert (to4 == sch), "to4 not good"
-	[best, countbest] = bestmethod[0](a, b, mod, bestmethod[1:], 0, wordsize)
-	[best, countbest2] = subtract(best[(len(best) - len(a)):], best[:(len(best) - len(a))], mod, wordsize)
-	countbest[0] += countbest2[0]
-	assert (best == sch), "best not good"
-	[ss, countssa] = ssa(a, b, mod, 2, wordsize)
-	[ss, countssa2] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
-	finalvar = 2
-	countssa[0] += countssa2[0]
-	assert (ss == sch), "ssa not good"
-	for var in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]:
-		[ss, countssa2] = ssa(a, b, mod, var, wordsize) 
-		[ss, countssa3] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
-		countssa2[0] += countssa3[0]
-		assert (ss == sch), "ssa not good"
-		if countssa2[1] < countssa[1]:
-			countssa = countssa2
-			finalvar = var
-	[ssr, countssar] = ssar(a, b, mod, 2, wordsize) 
-	assert (ssr == sch), "ssar not good"
-	finalvar2 = 2
-	for var in [4, 8, 16, 32]:
-		[ssr, countssar2] = ssar(a, b, mod, var, wordsize) 
-		assert (ssr == sch), "ssar not good"
-		if countssar2[1] < countssar[1]:
-			countssar = countssar2
-			finalvar2 = var
-	[nus, countnus] = nussbau(a, b, mod, wordsize, floor((len(bin(size)[2:]) - 1)/2), ceil((len(bin(size)[2:]) - 1)/2))
-	assert (nus == sch), "nus not good"
-	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "countkyber:", countntt, "countsch:", countsch, "countkar:", countkar, "countto3:", countto3, 
-		"countto4:", countto4, "countbest:", countbest, "countssa:", countssa, "countssar:", countssar, "countnus:", countnus]
-
-def dilithium(ratio, wordsize, parameterset):
-	mod = 2^23 - 2^13 + 1; size = 256; ranges = [[-7, 8], [-6, 7], [-5, 6], [-3, 4]]
-	lbrange = ranges[parameterset - 1][0]; rbrange = ranges[parameterset - 1][1]
-	a = [random.randrange(0, mod) for i in range(size)]
-	b = [random.randrange(lbrange, rbrange) for i in range(size)]
-	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
-
-	[nttd, countnttd] = nttkyber(a, b, mod, 3073009, 1, wordsize)
-	[nttd2, countnttd2] = nttsaberred(a, b, mod, mod, 1753, wordsize)
-	[nttd3, countnttd3] = nttdilithium(a, b, mod, 1753, 1, wordsize)
-	[sch, countsch] = school(a, b, mod, wordsize)
-	[sch, countsch2] = subtract(sch[(len(sch) - len(a)):], sch[:(len(sch) - len(a))], mod, wordsize)
-	countsch[0] += countsch2[0]
-	assert (nttd == sch), "dilithium not good"
-	[kar, countkar] = karatsuba(a, b, mod, methodskaratsuba[1:], 0, wordsize)
-	[kar, countkar2] = subtract(kar[(len(kar) - len(a)):], kar[:(len(kar) - len(a))], mod, wordsize)
-	countkar[0] += countkar2[0]
-	assert (kar == sch), "kar not good"
-	[to3, countto3] = toom3(a, b, mod, methodstoom3[1:], 0, wordsize)
-	[to3, countto32] = subtract(to3[(len(to3) - len(a)):], to3[:(len(to3) - len(a))], mod, wordsize)
-	countto3[0] += countto32[0]
-	assert (to3 == sch), "to3 not good"
-	[to4, countto4] = toom4(a, b, mod, methodstoom4[1:], 0, wordsize)
-	[to4, countto42] = subtract(to4[(len(to4) - len(a)):], to4[:(len(to4) - len(a))], mod, wordsize)
-	countto4[0] += countto42[0]
-	assert (to4 == sch), "to4 not good"
-	[best, countbest] = bestmethod[0](a, b, mod, bestmethod[1:], 0, wordsize)
-	[best, countbest2] = subtract(best[(len(best) - len(a)):], best[:(len(best) - len(a))], mod, wordsize)
-	countbest[0] += countbest2[0]
-	assert (best == sch), "best not good"
-	[ss, countssa] = ssa(a, b, mod, 2, wordsize)
-	[ss, countssa2] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
-	finalvar = 2
-	countssa[0] += countssa2[0]
-	assert (ss == sch), "ssa not good"
-	for var in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]:
-		[ss, countssa2] = ssa(a, b, mod, var, wordsize) 
-		[ss, countssa3] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
-		countssa2[0] += countssa3[0]
-		assert (ss == sch), "ssa not good"
-		if countssa2[1] < countssa[1]:
-			countssa = countssa2
-			finalvar = var
-	[ssr, countssar] = ssar(a, b, mod, 2, wordsize) 
-	assert (ssr == sch), "ssar not good"
-	finalvar2 = 2
-	for var in [4, 8, 16, 32]:
-		[ssr, countssar2] = ssar(a, b, mod, var, wordsize) 
-		assert (ssr == sch), "ssar not good"
-		if countssar2[1] < countssar[1]:
-			countssar = countssar2
-			finalvar2 = var
-	[nus, countnus] = nussbau(a, b, mod, wordsize, floor((len(bin(size)[2:]) - 1)/2), ceil((len(bin(size)[2:]) - 1)/2))
-	assert (nus == sch), "nus not good"
-	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "countdil:", countnttd3, "countsch:", countsch,
-		"countkar:", countkar, "countto3:", countto3, "countto4:", countto4, "countbest:", countbest, "countssa:", countssa, 
-		"countssar:", countssar, "countnus:", countnus]
+	output4 = u1
+	efficiencyoutput4 = efficiencyu1
+	if efficiencyoutput1 < efficiencyoutput4:
+		output4 = output1
+		efficiencyoutput4 = efficiencyoutput1
+	if efficiencyoutput2 < efficiencyoutput4:
+		output4 = output2
+		efficiencyoutput4 = efficiencyoutput2
+	if efficiencyoutput3 < efficiencyoutput4:
+		output4 = output3
+		efficiencyoutput4 = efficiencyoutput3
+	if efficiencyu2 < efficiencyoutput4:
+		output4 = u2
+		efficiencyoutput4 = efficiencyu2
+	if efficiencyu3 < efficiencyoutput4:
+		output4 = u3
+		efficiencyoutput4 = efficiencyu3
+	return [output1, output2, output3, output4]
 
 def saber(ratio, wordsize, parameterset):
 	mod = 2^13; mod2 = 10484737; pr = 10; size = 256; ranges = [[-5, 6], [-4, 5], [-3, 4]]
@@ -276,7 +163,7 @@ def saber(ratio, wordsize, parameterset):
 		if bestmethod[i] == toom4:
 			countmodbest *= 2^3
 
-	[sch, countsch] = school(a, b, mod, wordsize)
+	[sch, countsch] = schoolbook(a, b, mod, wordsize)
 	[sch, countsch2] = subtract(sch[(len(sch) - len(a)):], sch[:(len(sch) - len(a))], mod, wordsize)
 	countsch[0] += countsch2[0]
 	[kar, countkar] = karatsuba(a, b, mod, methodskaratsuba[1:], 0, wordsize)
@@ -305,13 +192,15 @@ def saber(ratio, wordsize, parameterset):
 	assert (best == sch), "best not good"
 	[ntred, countnttred] = nttsaberred(a, b, mod, mod2, pr, wordsize)
 	assert (ntred == sch), "nttred not good"
-	[ss, countssa] = ssar(a, b, mod, 2, wordsize) 
+	[ss, countssa, M] = ssared(a, b, mod, 2, wordsize) 
 	assert (ss == sch), "ssa not good"
+	finalm = M
 	for var in [4, 8, 16, 32, 64]:
-		[ss, countssa2] = ssar(a, b, mod, var, wordsize) 
+		[ss, countssa2, M] = ssared(a, b, mod, var, wordsize) 
 		assert (ss == sch), "ssa not good"
 		if countssa2[1] < countssa[1]:
 			countssa = countssa2
+			finalm = M
 	[nus, countnus] = nussbau(a, b, 2^18, wordsize, floor((len(bin(size)[2:]) - 1)/2), ceil((len(bin(size)[2:]) - 1)/2))
 	for i in range(len(nus)):
 		nus[i] = nus[i]%mod
@@ -320,15 +209,127 @@ def saber(ratio, wordsize, parameterset):
 	for i in range(len(nus)):
 		nus2[i] = nus2[i]%mod
 	assert (nus2 == sch), "nus2 not good"
-	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "countsaber:", countsabersm, "countsch:", countsch, "countkar:", countkar, "countto3:", 
-		countto3, "countto4:", countto4, "countbest:", countbest, "countnttred:", countnttred, "countssar:", countssa, "countnus:", countnus, "countnus2:", countnus2]
+	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "Saber's multiplication method:", countsabersm, "Schoolbook:", countsch, 
+		"Karatsuba:", countkar, "Toom-3:", countto3, "Toom-4:", countto4, "Beste combination of iterative methods:", countbest, "NTT reduced:", 
+		countnttred, "SSA reduced:", countssa, "Nussbaumer version 1:", countnus, "Nussbaumer version 2:", countnus2]
 
+def kyber(ratio, wordsize):
+	mod = 3329; size = 256
+	a = [random.randrange(0, mod) for i in range(size)]
+	b = [random.randrange(-2, 3) for i in range(size)]
+	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
+
+	[nttk, countntt, counttontt, countinv] = nttkyber(a, b, mod, 17, 1, wordsize)
+	[sch, countsch] = schoolbook(a, b, mod, wordsize)
+	[sch, countsch2] = subtract(sch[(len(sch) - len(a)):], sch[:(len(sch) - len(a))], mod, wordsize)
+	countsch[0] += countsch2[0]
+	assert (nttk == sch), "kyber not good"
+	[kar, countkar] = karatsuba(a, b, mod, methodskaratsuba[1:], 0, wordsize)
+	[kar, countkar2] = subtract(kar[(len(kar) - len(a)):], kar[:(len(kar) - len(a))], mod, wordsize)
+	countkar[0] += countkar2[0]
+	assert (kar == sch), "kar not good"
+	[to3, countto3] = toom3(a, b, mod, methodstoom3[1:], 0, wordsize)
+	[to3, countto32] = subtract(to3[(len(to3) - len(a)):], to3[:(len(to3) - len(a))], mod, wordsize)
+	countto3[0] += countto32[0]
+	assert (to3 == sch), "to3 not good"
+	[to4, countto4] = toom4(a, b, mod, methodstoom4[1:], 0, wordsize)
+	[to4, countto42] = subtract(to4[(len(to4) - len(a)):], to4[:(len(to4) - len(a))], mod, wordsize)
+	countto4[0] += countto42[0]
+	assert (to4 == sch), "to4 not good"
+	[best, countbest] = bestmethod[0](a, b, mod, bestmethod[1:], 0, wordsize)
+	[best, countbest2] = subtract(best[(len(best) - len(a)):], best[:(len(best) - len(a))], mod, wordsize)
+	countbest[0] += countbest2[0]
+	assert (best == sch), "best not good"
+	[ss, countssa, no] = ssa(a, b, mod, 2, wordsize)
+	[ss, countssa2] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
+	finalvar = 2
+	countssa[0] += countssa2[0]
+	assert (ss == sch), "ssa not good"
+	for var in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]:
+		[ss, countssa2, no] = ssa(a, b, mod, var, wordsize) 
+		[ss, countssa3] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
+		countssa2[0] += countssa3[0]
+		assert (ss == sch), "ssa not good"
+		if countssa2[1] < countssa[1]:
+			countssa = countssa2
+			finalvar = var
+	[ssr, countssared, M] = ssared(a, b, mod, 2, wordsize) 
+	assert (ssr == sch), "ssared not good"
+	finalm = M
+	for var in [4, 8, 16, 32, 64]:
+		[ssr, countssared2, M] = ssared(a, b, mod, var, wordsize) 
+		assert (ssr == sch), "ssared not good"
+		if countssared2[1] < countssared[1]:
+			countssared = countssared2
+			finalm = M
+	[nus, countnus] = nussbau(a, b, mod, wordsize, floor((len(bin(size)[2:]) - 1)/2), ceil((len(bin(size)[2:]) - 1)/2))
+	assert (nus == sch), "nus not good"
+	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "Kyber's NTT method:", countntt, "Schoolbook:", countsch, "Karatsuba:", 
+		countkar, "Toom-3:", countto3, "Toom-4:", countto4, "Best combination of iterative methods:", countbest, "SSA:", countssa, 
+		"countssared:", countssared, "Nussbaumer:", countnus, "Transform to NTT form:", counttontt, "Transform back to coefficient form:", 
+		countinv]
+
+def dilithium(ratio, wordsize, parameterset):
+	mod = 2^23 - 2^13 + 1; size = 256; ranges = [[-7, 8], [-6, 7], [-5, 6], [-3, 4]]
+	lbrange = ranges[parameterset - 1][0]; rbrange = ranges[parameterset - 1][1]
+	a = [random.randrange(0, mod) for i in range(size)]
+	b = [random.randrange(lbrange, rbrange) for i in range(size)]
+	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
+
+	[nttd3, countnttd3, counttontt, countinv] = nttdilithium(a, b, mod, 1753, 1, wordsize)
+	[sch, countsch] = schoolbook(a, b, mod, wordsize)
+	[sch, countsch2] = subtract(sch[(len(sch) - len(a)):], sch[:(len(sch) - len(a))], mod, wordsize)
+	countsch[0] += countsch2[0]
+	assert (nttd3 == sch), "dilithium not good"
+	[kar, countkar] = karatsuba(a, b, mod, methodskaratsuba[1:], 0, wordsize)
+	[kar, countkar2] = subtract(kar[(len(kar) - len(a)):], kar[:(len(kar) - len(a))], mod, wordsize)
+	countkar[0] += countkar2[0]
+	assert (kar == sch), "kar not good"
+	[to3, countto3] = toom3(a, b, mod, methodstoom3[1:], 0, wordsize)
+	[to3, countto32] = subtract(to3[(len(to3) - len(a)):], to3[:(len(to3) - len(a))], mod, wordsize)
+	countto3[0] += countto32[0]
+	assert (to3 == sch), "to3 not good"
+	[to4, countto4] = toom4(a, b, mod, methodstoom4[1:], 0, wordsize)
+	[to4, countto42] = subtract(to4[(len(to4) - len(a)):], to4[:(len(to4) - len(a))], mod, wordsize)
+	countto4[0] += countto42[0]
+	assert (to4 == sch), "to4 not good"
+	[best, countbest] = bestmethod[0](a, b, mod, bestmethod[1:], 0, wordsize)
+	[best, countbest2] = subtract(best[(len(best) - len(a)):], best[:(len(best) - len(a))], mod, wordsize)
+	countbest[0] += countbest2[0]
+	assert (best == sch), "best not good"
+	[ss, countssa, no] = ssa(a, b, mod, 2, wordsize)
+	[ss, countssa2] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
+	finalvar = 2
+	countssa[0] += countssa2[0]
+	assert (ss == sch), "ssa not good"
+	for var in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]:
+		[ss, countssa2, no] = ssa(a, b, mod, var, wordsize) 
+		[ss, countssa3] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
+		countssa2[0] += countssa3[0]
+		assert (ss == sch), "ssa not good"
+		if countssa2[1] < countssa[1]:
+			countssa = countssa2
+			finalvar = var
+	[ssr, countssared, M] = ssared(a, b, mod, 2, wordsize) 
+	assert (ssr == sch), "ssared not good"
+	finalm = M
+	for var in [4, 8, 16, 32, 64]:
+		[ssr, countssared2, M] = ssared(a, b, mod, var, wordsize) 
+		assert (ssr == sch), "ssared not good"
+		if countssared2[1] < countssared[1]:
+			countssared = countssared2
+			finalm = M
+	[nus, countnus] = nussbau(a, b, mod, wordsize, floor((len(bin(size)[2:]) - 1)/2), ceil((len(bin(size)[2:]) - 1)/2))
+	assert (nus == sch), "nus not good"
+	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "Dilithium's NTT method:", countnttd3, "Schoolbook:", countsch, "Karatsuba:", 
+		countkar, "Toom-3:", countto3, "Toom-4:", countto4, "Best combination of iterative methods:", countbest, "SSA:", countssa, 
+		"SSA reduced:", countssared, "Nussbaumer:", countnus, "Transform to NTT form:", counttontt, "Transform back to coefficient form:", 
+		countinv]
 
 def ntruprime(ratio, wordsize, sizeinp):
 	mods = [4621, 4591, 5167, 6343, 7177, 7879]; sizes = [653, 761, 857, 953, 1013, 1277]  
 	assert(wordsize >= 16), "implementation not optimal"
-	mod2s = [20144129, 20144129, 20144129, 20144129, 20144129, 20144129] 
-	prs = [3, 3, 3, 3, 3, 3]
+	mod2 = 20144129; pr = 3
 	
 	size = 0
 	index = 0
@@ -337,15 +338,14 @@ def ntruprime(ratio, wordsize, sizeinp):
 			size = sizes[i]
 			index = i
 	assert (size != 0), "no ntruprime input parameters"
-
-	mod = mods[index]; mod2 = mod2s[index]; pr = prs[index]
+	mod = mods[index]
 
 	a = [random.randrange(0, mod) for i in range(size)]
 	b = [random.randrange(-1, 2) for i in range(size)]
 	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
 
 	[ntrupr, countntruprime] = goodntrus(a, b, mod, mod2, pr, wordsize)
-	[sch, countsch] = school(a, b, mod, wordsize)
+	[sch, countsch] = schoolbook(a, b, mod, wordsize)
 	assert (ntrupr == sch), "ntruprime not good"
 	[kar, countkar] = karatsuba(a, b, mod, methodskaratsuba[1:], 0, wordsize)
 	assert (kar == sch), "kar not good"
@@ -357,13 +357,15 @@ def ntruprime(ratio, wordsize, sizeinp):
 	assert (best == sch), "best not good"
 	[nt, countntt] = nttntrus(a, b, mod, mod2, pr, wordsize) 
 	assert (nt == sch), "ntt not good"
-	[ss, countssa] = ssa(a, b, mod, 2, wordsize) 
+	[ss, countssa, M] = ssa(a, b, mod, 2, wordsize) 
 	assert (ss == sch), "ssa not good"
+	finalm = M
 	for var in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]:
-		[ss, countssa2] = ssa(a, b, mod, var, wordsize) 
+		[ss, countssa2, M] = ssa(a, b, mod, var, wordsize) 
 		assert (ss == sch), "ssa not good"
 		if countssa2[1] < countssa[1]:
 			countssa = countssa2
+			finalm = M
 	schtemp = [0]*(len(sch) - (len(a) - 1))
 	for i in range(len(schtemp) - 1):
 		schtemp[i] = sch[i]
@@ -373,12 +375,13 @@ def ntruprime(ratio, wordsize, sizeinp):
 	countto3[0] += count1[0] + count2[0]; countto4[0] += count1[0] + count2[0]; countbest[0] += count1[0] + count2[0]
 	countntt[0] += count1[0] + count2[0]; countssa[0] += count1[0] + count2[0]; countntruprime[0] += count1[0] + count2[0]
 
-	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "countntruprime:", countntruprime, "countsch:", countsch, "countkar:", countkar, "countto3:", countto3,
-		"countto4:", countto4, "countbest:", countbest, "countntt:", countntt, "countssa:", countssa]
+	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "NTRUPrime's polynomial multiplication method:", countntruprime, 
+		"Schoolbook:", countsch, "Karatsuba:", countkar, "Toom-3:", countto3, "Toom-4:", countto4, "Best combination of iterative methods:", 
+		countbest, "countntt:", countntt, "SSA:", countssa]
 
 def ntru(ratio, wordsize, sizeinp):
 	mods = [2^11, 2^11, 2^13, 2^12]; sizes = [509, 677, 701, 821]; sizes2 = [1024, 1536, 1536, 1728]
-	mod2s = [6635521]*4; prs = [19]*4
+	mod2 = 6635521; pr = 19
 
 	size = 0
 	index = 0
@@ -386,8 +389,8 @@ def ntru(ratio, wordsize, sizeinp):
 		if sizeinp == sizes[i]:
 			size = sizes[i]
 			index = i
-	mod = mods[index]; mod2 = mod2s[index]; pr = prs[index]; size2 = sizes2[index]
 	assert (size != 0), "no ntru input parameters"
+	mod = mods[index]; size2 = sizes2[index]
 	
 	a = [random.randrange(-mod/2, mod/2) for i in range(size)]
 	b = [random.randrange(-1, 2) for i in range(size)]
@@ -406,15 +409,13 @@ def ntru(ratio, wordsize, sizeinp):
 		if bestmethod[i] == toom4:
 			countmodbest *= 2^3
 
-	#[goodntru, countgoodntru] = goodntrus(a, b, mod, mod2, pr, wordsize) 
-	[sch, countsch] = school(a, b, mod, wordsize)
+	[sch, countsch] = schoolbook(a, b, mod, wordsize)
 	[ntrusm2, countntrusm2] = [sch, [0, 0]]
-	#[radix2ntru, countradix2ntru] = [sch, [0, 0]]
-	#[mradixntru, countmixedradixntru] = [sch, [0, 0]]
+
 	if size == 677 or size == 701:
 		[ntrusm2, countntrusm2] = goodntrus(a, b, mod, mod2, pr, wordsize)
+
 	if size == 509:
-		#mod509 = 1043969; pr = 3; w = 941631; count = 1; bound = 4
 		w = pr^((mod2 - 1)/256)%mod2; bound = 4
 		count = 1; binw = bin(w)[2:]; po2 = binw.count('1')
 		if po2 == 1:
@@ -423,12 +424,11 @@ def ntru(ratio, wordsize, sizeinp):
 		[ntrusm2, countntrusm2] = radix2ntru509(a, b, size, size2, mod, mod2, w, count, bound, wordsize)
 		
 	if size == 821:
-		#mod2 = 3365569; pr = 29; w2 = 1008125; w3 = 2113025; count2 = 1; count3 = 1; bound2 = 3; bound3 = 192
 		w2 = pr^((mod2 - 1)/64)%mod2; w3 = pr^((mod2 - 1)/9)%mod2; bound2 = 3; bound3 = 192
-		count2 = 1; count3 = 1; binw2 = bin(w2)[2:]; binw3 = bin(w3)[2:]; po22 = binw2.count('1'); po23 = binw3.count('1')
-		if po22 == 1:
+		count2 = 1; count3 = 1; binw2 = bin(w2)[2:]; binw3 = bin(w3)[2:]; po2w2 = binw2.count('1'); po2w3 = binw3.count('1')
+		if po2w2 == 1:
 			count2 = 0
-		if po23 == 1:
+		if po2w3 == 1:
 			count3 = 0
 		[ntrusm2, countntrusm2] = mixedradixntru(a, b, size, size2, mod, mod2, pr, w2, w3, count2, count3, bound2, bound3, wordsize)
 		 
@@ -442,13 +442,15 @@ def ntru(ratio, wordsize, sizeinp):
 	[ntrusm, countntrusm] = toom4(a, b, mod*2^3, methodskaratsuba[2:], 0, wordsize)
 	[best, countbest] = bestmethod[0](a, b, mod*countmodbest, bestmethod[1:], 0, wordsize)
 	[nt, countntt] = nttntrus(a, b, mod, mod2, pr, wordsize)	
-	[ss, countssa] = ssa(a, b, mod, 2, wordsize) 
+	[ss, countssa, M] = ssa(a, b, mod, 2, wordsize) 
 	assert (ss == sch), "ssa not good"
+	finalm = M
 	for var in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]:
-		[ss, countssa2] = ssa(a, b, mod, var, wordsize) 
+		[ss, countssa2, M] = ssa(a, b, mod, var, wordsize) 
 		assert (ss == sch), "ssa not good"
 		if countssa2[1] < countssa[1]:
 			countssa = countssa2 
+			finalm = M
 
 	for i in range(len(sch)):
 		to3[i] = to3[i]%mod; to4[i] = to4[i]%mod; ntrusm[i] = ntrusm[i]%mod
@@ -467,8 +469,69 @@ def ntru(ratio, wordsize, sizeinp):
 	countto3[0] += count1[0]; countto4[0] += count1[0]; countbest[0] += count1[0]
 	countntt[0] += count1[0]; countssa[0] += count1[0]; countntrusm2[0] += count1[0]
 
-	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "countntru:", countntrusm, "countntru2:", countntrusm2, "countsch:", countsch, "countkar:", countkar, "countto3:", countto3, "countto4:", 
-		countto4, "countbest:", countbest, "countntt:", countntt, "countssa:", countssa]
+	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "NTRU's polynomial multiplication method:", countntrusm, 
+		"NTRU's NTT method:", countntrusm2, "Schoolbook:", countsch, "Karatsuba:", countkar, "Toom-3:", countto3, "Toom-4:", 
+		countto4, "Best combination of iterative methods:", countbest, "countntt:", countntt, "SSA:", countssa]
+
+def falcon(ratio, wordsize, size):
+	mod = 12289; pr = 11; th = 10302
+	if size == 1024:
+		th = 1945
+	a = [random.randrange(0, mod) for i in range(size)]
+	b = [random.randrange(-127, 128) for i in range(size)]
+	[methodskaratsuba, methodstoom3, methodstoom4, bestmethod] = bestcombo(size, ratio, mod, wordsize)
+
+	[fftf, countfalcon, counttofft, countinv] = fftfalcon(a, b, mod, wordsize)
+	[sch, countsch] = schoolbook(a, b, mod, wordsize)
+	[sch, countsch2] = subtract(sch[(len(sch) - len(a)):], sch[:(len(sch) - len(a))], mod, wordsize)
+	countsch[0] += countsch2[0]
+	assert (fftf == sch), "falcon not good"
+	[kar, countkar] = karatsuba(a, b, mod, methodskaratsuba[1:], 0, wordsize)
+	[kar, countkar2] = subtract(kar[(len(kar) - len(a)):], kar[:(len(kar) - len(a))], mod, wordsize)
+	countkar[0] += countkar2[0]
+	assert (kar == sch), "kar not good"
+	[to3, countto3] = toom3(a, b, mod, methodstoom3[1:], 0, wordsize)
+	[to3, countto32] = subtract(to3[(len(to3) - len(a)):], to3[:(len(to3) - len(a))], mod, wordsize)
+	countto3[0] += countto32[0]
+	assert (to3 == sch), "to3 not good"
+	[to4, countto4] = toom4(a, b, mod, methodstoom4[1:], 0, wordsize)
+	[to4, countto42] = subtract(to4[(len(to4) - len(a)):], to4[:(len(to4) - len(a))], mod, wordsize)
+	countto4[0] += countto42[0]
+	assert (to4 == sch), "to4 not good"
+	[best, countbest] = bestmethod[0](a, b, mod, bestmethod[1:], 0, wordsize)
+	[best, countbest2] = subtract(best[(len(best) - len(a)):], best[:(len(best) - len(a))], mod, wordsize)
+	countbest[0] += countbest2[0]
+	assert (best == sch), "best not good"
+	[ntred, countnttred, no, no] = nttdilithium(a, b, mod, th, 1, wordsize)
+	assert (ntred == sch), "nttdil not good"
+	[ss, countssa, no] = ssa(a, b, mod, 2, wordsize)
+	[ss, countssa2] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
+	finalvar = 2
+	countssa[0] += countssa2[0]
+	assert (ss == sch), "ssa not good"
+	for var in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]:
+		[ss, countssa2, no] = ssa(a, b, mod, var, wordsize) 
+		[ss, countssa3] = subtract(ss[(len(ss) - len(a)):], ss[:(len(ss) - len(a))], mod, wordsize)
+		countssa2[0] += countssa3[0]
+		assert (ss == sch), "ssa not good"
+		if countssa2[1] < countssa[1]:
+			countssa = countssa2
+			finalvar = var
+	[ssr, countssared, M] = ssared(a, b, mod, 2, wordsize) 
+	assert (ssr == sch), "ssared not good"
+	finalm = M
+	for var in [4, 8, 16, 32, 64, 128]:
+		[ssr, countssared2, M] = ssared(a, b, mod, var, wordsize) 
+		assert (ssr == sch), "ssared not good"
+		if countssared2[1] < countssared[1]:
+			countssared = countssared2
+			finalm = M
+	[nus, countnus] = nussbau(a, b, mod, wordsize, floor((len(bin(size)[2:]) - 1)/2), ceil((len(bin(size)[2:]) - 1)/2))
+	assert (nus == sch), "nus not good"
+	return [methodskaratsuba, methodstoom3, methodstoom4, bestmethod, "Falcon's FFT method:", countfalcon, "Falcon's NTT method:", countnttred, 
+		"Schoolbook:", countsch, "Karatsuba:", countkar, "Toom-3:", countto3, "Toom-4:", countto4, "Best combination of iterative methods:", 
+		countbest, "SSA:", countssa, "SSA reduced:", countssared, "Nussbaumer:", countnus, "Transform to FFT form:", counttofft, 
+		"Transform back to coefficient form:", countinv]
 
 def efficiency(algorithm, ratio):
 	names = algorithm[4::2]
@@ -476,16 +539,21 @@ def efficiency(algorithm, ratio):
 	eff = [0]*len(counters); output = []
 	for i in range(len(counters)):
 		eff[i] = ceil(counters[i][0] + ratio*counters[i][1])
-		output += [[names[i], eff[i]]]
+		output += [["Efficiency", names[i], eff[i]]]
 	return output
 
-def all(ratio, wordsize, parameterset, sizenp, sizen):
+def all(ratio, wordsize, parametersets, parametersetd, sizenp, sizen, sizef):
+	s = saber(ratio, wordsize, parametersets)
+	outputsaber = efficiency(s, ratio)
 	k = kyber(ratio, wordsize)
 	outputkyber = efficiency(k, ratio)
-	s = saber(ratio, wordsize, parameterset)
-	outputsaber = efficiency(s, ratio)
+	d = dilithium(ratio, wordsize, parametersetd)
+	outputdilithium = efficiency(d, ratio)
 	np = ntruprime(ratio, wordsize, sizenp)
 	outputntruprime = efficiency(np, ratio)
 	n = ntru(ratio, wordsize, sizen)
 	outputntru = efficiency(n, ratio)
-	return ["KYBER", k, outputkyber, "SABER", s, outputsaber, "NTRUPRIME", np, outputntruprime, "NTRU", n, outputntru]
+	f = falcon(ratio, wordsize, sizef)
+	outputfalcon = efficiency(f, ratio)
+	return ["SABER", s, outputsaber, "KYBER", k, outputkyber, "DILITHIUM", d, outputdilithium, "NTRUPRIME", np, outputntruprime, 
+		"NTRU", n, outputntru, "FALCON", f, outputfalcon]
