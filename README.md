@@ -2,10 +2,6 @@
 This repository contains the implementation (in SageMath version 9.1) of functions used to perform the analysis of my graduation project for the master IAM at TU/e.
 It consists of two programs: ```algorithms.sage``` and ```methods.sage```. 
 
-B.A.M. (Babette) Lips
-b.a.m.lips@student.tue.nl
-0889376
-
 ## Table of contents
 * [General information](#general-information)
 * [Setup](#setup)
