@@ -1,6 +1,6 @@
 ## The efficiency of polynomial multiplication methods for ring-based PQC algorithms of Round 3 of the NIST PQC competition.
 This repository contains the implementation (in SageMath version 9.1) of functions used for the analysis done in my master graduation project.
-It consists of two programs, ```algorithms``` and ```methods```. 
+It consists of two programs, ```algorithms.sage``` and ```methods.sage```. 
 
 ## Table of contents
 * [General information](#general-information)
@@ -8,8 +8,8 @@ It consists of two programs, ```algorithms``` and ```methods```.
 * [Code examples](#code-examples)
 
 ## General information
-### The program ```methods```
-The program ```methods``` exists of functions that either support or perform one of the polynomial multiplication methods. Common input parameters are:
+### The program ```methods.sage```
+This program exists of functions that either support or perform one of the polynomial multiplication methods. Common input parameters are:
 - ```a```: the first input polynomial, given as a list ```a = [a_{m-1}, ..., a_1, a_0]```.
 - ```b```: the second input polynomial, given as a list ```b = [b_{m-1}, ..., b_1, b_0]```.
 - ```m```: the size of a and b, given as an integer.
@@ -22,8 +22,8 @@ Furthermore, common output parameters are:
 - ```c```: the multiplication of polynomials a and b, given as a list ```c = [c_{n-1}, ..., c_1, c_0]```.
 - ```counter```: the number of additions and multiplications performed by the function, given as a list ```counter = [add, mult]```.
 
-### The program ```algorithms```
-The program ```algorithms``` exists of functions that perform the applicable polynomial multiplication methods for the ring-based PQC algorithms of Round 3 of the NIST 
+### The program ```algorithms.sage```
+This program exists of functions that perform the applicable polynomial multiplication methods for the ring-based PQC algorithms of Round 3 of the NIST 
 PQC competition. 
 One can find two more functions in this file, namely:
 - ```efficiency(algorithm, ratio)```, which computes the efficiency of the polynomial multiplication methods for a given a ring-based PQC algorithm of Round 3 of 
@@ -40,17 +40,14 @@ Furthermore, common input parameters are:
 To run the programs of this repository, perform the following steps:
 
 - Download SageMath version 9.1 via [this link](https://github.com/sagemath/sage-windows/releases/tag/0.6.0-9.1).
-- Copy the code of program ```methods``` in a textfile, for example using Notepad.
-- Save the textfile as an 'all files' document on your computer using the name: methods.sage.
-- Copy the code of program ```algorithms``` in a textfile, for example using Notepad.
-- Save the textfile as an 'all files' document on your computer using the name: algorithms.sage.
+- Download the programs ```methods.sage``` and ```algorithms.sage``` from this repository.
 - Run the following script in Sage: 
 ```
 load("methods.sage")
 load("algorithms.sage")
 ```
-We are now able to use the functions of both programs. Make sure to load both programs, because we cannot find results of the functions in program ```algorithms``` 
-when we did not load program ```method```.
+We are now able to use the functions of both programs. Make sure to load both programs, because we cannot find results of the functions of program ```algorithms.sage``` 
+without loading the program ```method.sage``` first.
 
 ## Code examples
 To for example find the results for parameter set 2 of Falcon on a platform with word size 64 and ratio 1.0, running the following script gives the desired results:
