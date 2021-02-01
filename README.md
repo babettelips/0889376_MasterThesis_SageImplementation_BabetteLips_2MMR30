@@ -56,16 +56,16 @@ We are now able to use the functions of both programs. Make sure to load both pr
 without loading the program ```method.sage``` first.
 
 ## Code examples
-To find the efficiencies of the applicable polynomial multiplication methods of Dilithium's parameter sets on a platform with word size 32 and ratio 4.0, run the following script:
+To find the number of additions and multiplication performed by the applicable polynomial multiplication methods of Dilithium's parameter sets on a platform with word size 64 and ratio 1.0, run the following script:
 
 ```
-efficiency(dilithium(4.0, 32), 4.0)
+dilithium(1.0, 64)
 ```
 
-To find the number of additions and multiplication performed by the applicable polynomial multiplication methods of parameter set 2 of Falcon on a platform with word size 64 and ratio 1.0, run the following script:
+To also find the efficiencies of the applicable polynomial multiplication methods of Dilithium's parameter sets on a platform with word size 64 and ratio 1.0, run the following script:
 
 ```
-falcon(1.0, 64, 2)
+efficiency(dilithium(1.0, 64), 1.0)
 ```
 
 To find all results for the applicable polynomial multiplication methods of Saber and Kyber on a platform with word size 16 and ratio 3.0, runn the following script:
@@ -82,8 +82,8 @@ To find the number of additions and multiplication performed by the applicable p
 ntruprime(2.0, 128, 4)
 ```
 
-Furthermore, to find all results for the applicable polynomial multiplication methods of each parameter set of NTRU on a platform with word size 128 and ratio 2.0, run the following script:
+Furthermore, to find all results for the applicable polynomial multiplication methods of each parameter set of NTRU on a platform with word size 32 and ratio 4.0, run the following script:
 
 ```
-all([ntru, 1, ntru, 2, ntru, 3, ntru, 4], 2.0, 128)
+all([ntru, 1, ntru, 2, ntru, 3, ntru, 4], 4.0, 32)
 ```
