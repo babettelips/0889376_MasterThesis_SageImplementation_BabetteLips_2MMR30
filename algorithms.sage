@@ -1,7 +1,8 @@
-import random; import cmath; import pandas as pd
-#load("Documents/Thesis/methods.sage")
+import random; import cmath; import pandas as pd; import numbers
+#load("methods.sage")
 
 def saber(ratio, wordsize):
+	assert(wordsize >= 16), "implementation not optimal"
 	mod = 2^13; mod2 = 10484737; pr = 10; size = 256; ranges = [[-5, 6], [-4, 5], [-3, 4]]
 	lbrange = ranges[0][0]; rbrange = ranges[0][1] #results are the same for each parameter set
 	a = [random.randrange(0, mod) for i in range(size)]
@@ -185,8 +186,9 @@ def dilithium(ratio, wordsize):
 		countinv]
 
 def ntruprime(ratio, wordsize, parameterset):
-	mods = [4621, 4591, 5167, 6343, 7177, 7879]; sizes = [653, 761, 857, 953, 1013, 1277]  
 	assert(wordsize >= 16), "implementation not optimal"
+	assert(parameterset in [1, 2, 3, 4, 5, 6]), "this is not a parameter set of NTRUPrime, please insert an integer in between 1 and 6 for the input parameter 'parameterset'"
+	mods = [4621, 4591, 5167, 6343, 7177, 7879]; sizes = [653, 761, 857, 953, 1013, 1277]  
 	mod2 = 20144129; pr = 3; mod = mods[parameterset - 1]; size = sizes[parameterset - 1]
 
 	a = [random.randrange(0, mod) for i in range(size)]
@@ -229,8 +231,10 @@ def ntruprime(ratio, wordsize, parameterset):
 		countbest, "countntt:", countntt, "SSA:", countssa]
 
 def ntru(ratio, wordsize, parameterset):
+	assert(wordsize >= 16), "implementation not optimal"
+	assert(parameterset in [1, 2, 3, 4]), "this is not a parameter set of NTRU, please insert an integer in between 1 and 4 for the input parameter 'parameterset'"
 	mods = [2^11, 2^11, 2^13, 2^12]; sizes = [509, 677, 701, 821]; sizes2 = [1024, 1536, 1536, 1728]
-	mod2 = 6635521; pr = 19; mod = mods[parameterset - 1]; size = sizes[parameterset - 1]
+	mod2 = 6635521; pr = 19; mod = mods[parameterset - 1]; size = sizes[parameterset - 1]; size2 = sizes2[parameterset - 1]
 	
 	a = [random.randrange(-mod/2, mod/2) for i in range(size)]
 	b = [random.randrange(-1, 2) for i in range(size)]
@@ -315,6 +319,7 @@ def ntru(ratio, wordsize, parameterset):
 
 def falcon(ratio, wordsize, parameterset):
 	mod = 12289; pr = 11; ths = [10302, 1945]; sizes = [512, 1024]
+	assert(parameterset in [1, 2]), "this is not a parameter set of Falcon, please insert an integer in between 1 and 2 for the input parameter 'parameterset'"
 	th = ths[parameterset - 1]; size = sizes[parameterset - 1]
 
 	a = [random.randrange(0, mod) for i in range(size)]
@@ -386,7 +391,7 @@ def all(algorithms, ratio, wordsize):
 	output = []
 	for i in range(len(algorithms)):
 		if algorithms[i] == saber:
-			addmul = saber(ratio, wordsize, 1)
+			addmul = saber(ratio, wordsize)
 			eff = efficiency(addmul, ratio)
 			name = "SABER:"
 			output += [name, addmul, eff]
@@ -398,24 +403,27 @@ def all(algorithms, ratio, wordsize):
 			output += [name, addmul, eff]
 
 		if algorithms[i] == dilithium:
-			addmul = dilithium(ratio, wordsize, 1)
+			addmul = dilithium(ratio, wordsize)
 			eff = efficiency(addmul, ratio)
 			name = "DILITHIUM:"
 			output += [name, addmul, eff]
 
 		if algorithms[i] == ntruprime:
+			assert(isinstance(algorithms[i + 1], numbers.Number)), "please insert which parameter set of NTRUPrime you want to find results for"
 			addmul = ntruprime(ratio, wordsize, algorithms[i + 1])
 			eff = efficiency(addmul, ratio)
 			name = "NTRUPRIME PARAMETER SET "+"{}".format(algorithms[i + 1])+":"
 			output += [name, addmul, eff]
 
 		if algorithms[i] == ntru:
+			assert(isinstance(algorithms[i + 1], numbers.Number)), "please insert which parameter set of NTRU you want to find results for"
 			addmul = ntru(ratio, wordsize, algorithms[i + 1])
 			eff = efficiency(addmul, ratio)
 			name = "NTRU PARAMETER SET "+"{}".format(algorithms[i + 1])+":"
 			output += [name, addmul, eff]
 
 		if algorithms[i] == falcon:
+			assert(isinstance(algorithms[i + 1], numbers.Number)), "please insert which parameter set of Falcon you want to find results for"
 			addmul = falcon(ratio, wordsize, algorithms[i + 1])
 			eff = efficiency(addmul, ratio)
 			name = "FALCON PARAMETER SET "+"{}".format(algorithms[i + 1])+":"
