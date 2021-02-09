@@ -22,14 +22,15 @@ def primroot(mod):
 			return g
 	return "no primitive root found for this modulus"
 
-def findmod(m, s):
+def findmod(n, s1, s2):
 	#to find a big enough prime p for the NTT method when no prime is given.
-
+	#with s1 and s2 we denote s_1 and s_2, the largest coefficients of polynomials a and b.
+	
 	k = 1
-	p = k*m + 1
-	while isprime(p) == False or p < (m*s^2 + 1):
-		p = p + m; k += 1
-	return [p, k]
+	q = k*n + 1
+	while isprime(q) == False or q < (n*s1*s2 + 1):
+		q = q + n; k += 1
+	return [q, k]
 
 def adding(a, b, begina, enda, beginb, endb, mod, wordsize):
 	mu = numwords(mod, wordsize)
